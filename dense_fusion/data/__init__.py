@@ -1,0 +1,4 @@
+# flake8: noqa
+
+from dense_fusion.data.pretrained_model import pose_net_pretrained_model_path
+from dense_fusion.data.pretrained_model import pose_refine_net_pretrained_model_path
