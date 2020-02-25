@@ -97,7 +97,7 @@ def loss_calculation(
                 pairwise_dist(target.T.unsqueeze(0), pred.T.unsqueeze(0)), 1
             )[1]
 
-            target = torch.index_select(target, 1, inds.view(-1).detach() - 1)
+            target = torch.index_select(target, 1, inds.view(-1).detach())
             target = (
                 target.view(3, bs * num_p, num_point_mesh).permute(
                     1, 2, 0).contiguous()
