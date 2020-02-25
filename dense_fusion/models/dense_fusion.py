@@ -83,13 +83,24 @@ class PoseNet(nn.Module):
         self.conv3_t = torch.nn.Conv1d(256, 128, 1)
         self.conv3_c = torch.nn.Conv1d(256, 128, 1)
 
-        self.conv4_r = torch.nn.Conv1d(128, num_obj * 4, 1)  # quaternion
-        self.conv4_t = torch.nn.Conv1d(128, num_obj * 3, 1)  # translation
-        self.conv4_c = torch.nn.Conv1d(128, num_obj * 1, 1)  # confidence
+        self.conv4_r = torch.nn.Conv1d(128, num_obj * 4, 1)
+        self.conv4_t = torch.nn.Conv1d(128, num_obj * 3, 1)
+        self.conv4_c = torch.nn.Conv1d(128, num_obj * 1, 1)
 
         self.num_obj = num_obj
 
     def forward(self, img, x, choose, obj):
+        """Inference 6dof pose with confidence.
+
+        Returns
+        -------
+        out_rx : torch.Tensor
+            quaternion shape of (batch_size, self.num_points, 4)
+        out_tx : torch.Tensor
+            translation shape of (batch_size, self.num_points, 3)
+        out_cx : torch.Tensor
+            confidence shape of (batch_size, self.num_points, 1)
+        """
         out_img = self.cnn(img)
 
         bs, di, _, _ = out_img.size()
@@ -179,12 +190,21 @@ class PoseRefineNet(nn.Module):
         self.conv2_r = torch.nn.Linear(512, 128)
         self.conv2_t = torch.nn.Linear(512, 128)
 
-        self.conv3_r = torch.nn.Linear(128, num_obj * 4)  # quaternion
-        self.conv3_t = torch.nn.Linear(128, num_obj * 3)  # translation
+        self.conv3_r = torch.nn.Linear(128, num_obj * 4)
+        self.conv3_t = torch.nn.Linear(128, num_obj * 3)
 
         self.num_obj = num_obj
 
     def forward(self, x, emb, obj):
+        """Inference 6dof pose.
+
+        Returns
+        -------
+        out_rx : torch.Tensor
+            quaternion shape of (batch_size, self.num_points, 4)
+        out_tx : torch.Tensor
+            translation shape of (batch_size, self.num_points, 3)
+        """
         bs = x.size()[0]
 
         x = x.transpose(2, 1).contiguous()
