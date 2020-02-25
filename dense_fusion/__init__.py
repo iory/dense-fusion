@@ -9,6 +9,7 @@ CACHE_ROOT_PATH = osp.expanduser('~/.dense_fusion')
 
 
 import dense_fusion.data
+import dense_fusion.datasets
 import dense_fusion.models
 import dense_fusion.nn
 import dense_fusion.visualizations
