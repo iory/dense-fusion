@@ -26,7 +26,8 @@ class PSPModule(nn.Module):
     def forward(self, feats):
         h, w = feats.size(2), feats.size(3)
         priors = [
-            F.upsample(input=stage(feats), size=(h, w), mode="bilinear")
+            F.interpolate(input=stage(feats), size=(h, w), mode="bilinear",
+                          align_corners=False)
             for stage in self.stages
         ] + [feats]
         bottle = self.bottleneck(torch.cat(priors, 1))
@@ -60,7 +61,7 @@ class PSPNet(nn.Module):
     ):
         super(PSPNet, self).__init__()
         if backend == 'resnet18':
-            self.feats = resnet.resnet18(pretrained)
+            self.feats = resnet.resnet18()
         else:
             raise NotImplementedError
         self.psp = PSPModule(psp_size, 1024, sizes)
@@ -73,7 +74,7 @@ class PSPNet(nn.Module):
         self.drop_2 = nn.Dropout2d(p=0.15)
         self.final = nn.Sequential(
             nn.Conv2d(64, 32, kernel_size=1),
-            nn.LogSoftmax())
+            nn.LogSoftmax(dim=1))
 
         self.classifier = nn.Sequential(
             nn.Linear(deep_features_size, 256),
