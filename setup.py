@@ -33,6 +33,9 @@ if sys.argv[-1] == "release":
 
 setup_requires = []
 install_requires = [
+    'cameramodels>=0.0.7',
+    'gdown',
+    'open3d>=0.9.0',
     'torch',
     'torchvision',
     ]
