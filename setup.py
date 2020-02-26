@@ -30,7 +30,6 @@ if sys.argv[-1] == "release":
         subprocess.check_call(shlex.split(cmd))
     sys.exit(0)
 
-
 setup_requires = []
 install_requires = [
     'cameramodels>=0.0.7',
@@ -65,6 +64,11 @@ setup(
         "Programming Language :: Python :: Implementation :: CPython",
     ],
     packages=find_packages(),
+    package_data={'dense_fusion':
+                  ['datasets/ycb/config/README.md',
+                   'datasets/ycb/config/train_data_list.txt',
+                   'datasets/ycb/config/classes.txt',
+                   'datasets/ycb/config/test_data_list.txt']},
     zip_safe=False,
     setup_requires=setup_requires,
     install_requires=install_requires,
