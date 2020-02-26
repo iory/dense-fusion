@@ -372,7 +372,8 @@ class DenseFusion(nn.Module):
                     trans_matrix_2[0:3, 3] = translation_2
 
                     trans_matrix_final = np.dot(trans_matrix, trans_matrix_2)
-                    rotation_final = matrix2quaternion(trans_matrix_final[:3, :3])
+                    rotation_final = matrix2quaternion(
+                        trans_matrix_final[:3, :3])
                     translation_final = np.array([trans_matrix_final[0][3],
                                                   trans_matrix_final[1][3],
                                                   trans_matrix_final[2][3]])
