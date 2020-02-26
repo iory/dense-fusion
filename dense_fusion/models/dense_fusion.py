@@ -260,7 +260,7 @@ class DenseFusion(nn.Module):
                 dataset=dataset_type)))
 
     def predict(self, rgb_img, depth, label_img,
-                poses, label, bboxes, intrinsic_matrix):
+                label, bboxes, intrinsic_matrix):
         num_points = self.num_points
         iteration = self.iteration
         batch_size = 1
@@ -282,6 +282,8 @@ class DenseFusion(nn.Module):
             choose = mask[rmin:rmax, cmin:cmax].flatten().nonzero()[0]
 
             if len(choose) == 0:
+                translations.append([])
+                rotations.append([])
                 continue
 
             if len(choose) > num_points:
@@ -370,8 +372,7 @@ class DenseFusion(nn.Module):
                     trans_matrix_2[0:3, 3] = translation_2
 
                     trans_matrix_final = np.dot(trans_matrix, trans_matrix_2)
-                    rotation_final = matrix2quaternion(
-                        trans_matrix_final[:3, :3])
+                    rotation_final = matrix2quaternion(trans_matrix_final[:3, :3])
                     translation_final = np.array([trans_matrix_final[0][3],
                                                   trans_matrix_final[1][3],
                                                   trans_matrix_final[2][3]])
@@ -379,5 +380,5 @@ class DenseFusion(nn.Module):
                     rotation = rotation_final
                     translation = translation_final
             translations.append(translation)
-            rotations.append(rotation)
+            rotations.append(quaternion_normalize(rotation))
         return rotations, translations
