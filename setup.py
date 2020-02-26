@@ -44,7 +44,7 @@ install_requires = [
 setup(
     name="dense-fusion",
     version=version,
-    description="A python library",
+    description="DenseFusion (6DoF Pose Estimaton)",
     author="iory",
     author_email="ab.ioryz@gmail.com",
     url="https://github.com/iory/dense-fusion",
