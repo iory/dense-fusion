@@ -1,6 +1,7 @@
 from __future__ import print_function
 
 import distutils.spawn
+import glob
 import shlex
 import subprocess
 import sys
@@ -30,6 +31,8 @@ if sys.argv[-1] == "release":
         subprocess.check_call(shlex.split(cmd))
     sys.exit(0)
 
+
+data_files = glob.glob('dense_fusion/datasets/ycb/config/*')
 
 setup_requires = []
 install_requires = [
@@ -65,6 +68,7 @@ setup(
         "Programming Language :: Python :: Implementation :: CPython",
     ],
     packages=find_packages(),
+    package_data={'dense_fusion': data_files},
     zip_safe=False,
     setup_requires=setup_requires,
     install_requires=install_requires,
