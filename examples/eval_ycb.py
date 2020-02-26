@@ -32,7 +32,7 @@ if __name__ == '__main__':
             intrinsic_matrix, img_height, img_width)
 
         rotations, translations = model.predict(
-            rgb_img, depth, label_img, poses, label, bboxes, intrinsic_matrix)
+            rgb_img, depth, label_img, label, bboxes, intrinsic_matrix)
 
         # visualization
         for rotation, translation, itemid in zip(rotations,
