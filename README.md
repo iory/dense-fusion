@@ -1,5 +1,7 @@
 # dense-fusion
 
+Original repository is [j96w/DenseFusion](https://github.com/j96w/DenseFusion).
+
 ## Prerequisite
 
 Download [YCB Video Dataset](https://drive.google.com/uc?id=1if4VoEXNx9W3XCn0Y7Fp15B4GpcYbyYi) and extract it.
